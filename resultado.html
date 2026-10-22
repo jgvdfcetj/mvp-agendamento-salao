@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento realizado - Gestão do Salão</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">✿</div>
+        <div>
+            <h1>Gestão do Salão</h1>
+            <p>Organização que valoriza o seu trabalho</p>
+        </div>
+        <button class="menu" aria-label="Menu">☰</button>
+    </header>
+
+    <main class="conteudo">
+        <a href="agendamentos.html" class="voltar">← Voltar</a>
+
+        <h2>Agendamento realizado!</h2>
+        <p class="subtitulo">
+            Confira os dados do horário registrado.
+        </p>
+
+        <section class="confirmacao" role="status">
+            <span class="selo">✓</span>
+            <div>
+                <h3>Agendamento confirmado</h3>
+                <p>Seu horário foi registrado com sucesso.</p>
+            </div>
+        </section>
+
+        <section class="detalhes">
+            <h3>Detalhes do agendamento</h3>
+
+            <p><strong>Cliente:</strong> <span id="cliente">—</span></p>
+            <p><strong>Serviço:</strong> <span id="servico">—</span></p>
+            <p><strong>Data:</strong> <span id="data">—</span></p>
+            <p><strong>Horário:</strong> <span id="horario">—</span></p>
+            <p><strong>Observações:</strong> <span id="observacoes">Nenhuma</span></p>
+        </section>
+
+        <button class="botao-salvar" onclick="verAgenda()">
+            Ver minha agenda
+        </button>
+
+        <a href="index.html" class="botao-voltar-menu">
+            ← Voltar ao menu
+        </a>
+
+        <section class="lista-agenda">
+            <h3>Agendamentos registrados</h3>
+            <div id="lista">
+                <p>Nenhum agendamento registrado nesta sessão.</p>
+            </div>
+        </section>
+
+        <aside class="informacao">
+            ⓘ Esta é uma demonstração acadêmica com dados fictícios.
+        </aside>
+    </main>
+
+    <nav class="rodape" aria-label="Navegação principal">
+        <a href="index.html">⌂<span>Início</span></a>
+        <a href="agendamentos.html" class="ativo">
+            ▦<span>Agendamentos</span>
+        </a>
+        <a href="index.html#clientes">♙<span>Clientes</span></a>
+        <a href="#configuracoes">⚙<span>Configurações</span></a>
+    </nav>
+
+    <script>
+        const agendamentoAtual = JSON.parse(
+            sessionStorage.getItem("agendamentoAtual") || "null"
+        );
+
+        const listaAgendamentos = JSON.parse(
+            sessionStorage.getItem("listaAgendamentos") || "[]"
+        );
+
+        function mostrarTexto(id, valor) {
+            document.getElementById(id).textContent = valor || "—";
+        }
+
+        function formatarData(data) {
+            if (!data) return "—";
+            const partes = data.split("-");
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
+        if (agendamentoAtual) {
+            mostrarTexto("cliente", agendamentoAtual.cliente);
+            mostrarTexto("servico", agendamentoAtual.servico);
+            mostrarTexto("data", formatarData(agendamentoAtual.data));
+            mostrarTexto("horario", agendamentoAtual.horario);
+            mostrarTexto("observacoes", agendamentoAtual.observacoes || "Nenhuma");
+        } else {
+            document.querySelector(".confirmacao h3").textContent =
+                "Nenhum novo agendamento";
+            document.querySelector(".confirmacao p").textContent =
+                "Preencha o formulário para registrar um horário.";
+        }
+
+        const lista = document.getElementById("lista");
+
+        if (listaAgendamentos.length > 0) {
+            lista.replaceChildren();
+
+            listaAgendamentos.forEach(function(item) {
+                const cartao = document.createElement("article");
+                cartao.className = "item-agenda";
+
+                const titulo = document.createElement("strong");
+                titulo.textContent =
+                    formatarData(item.data) + " • " + item.horario;
+
+                const cliente = document.createElement("p");
+                cliente.textContent = item.cliente;
+
+                const servico = document.createElement("p");
+                servico.textContent = item.servico;
+
+                const estado = document.createElement("span");
+                estado.className = "status";
+                estado.textContent = "Registrado";
+
+                cartao.append(titulo, cliente, servico, estado);
+                lista.appendChild(cartao);
+            });
+        }
+
+        function verAgenda() {
+            document.getElementById("lista").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    </script>
+
+</body>
+</html>

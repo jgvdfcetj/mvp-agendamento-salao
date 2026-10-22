@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Agendamento - Gestão do Salão</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">✿</div>
+        <div>
+            <h1>Gestão do Salão</h1>
+            <p>Organização que valoriza o seu trabalho</p>
+        </div>
+        <button class="menu" aria-label="Menu">☰</button>
+    </header>
+
+    <main class="conteudo">
+        <a href="index.html" class="voltar">← Voltar</a>
+
+        <h2>Novo Agendamento</h2>
+        <p class="subtitulo">
+            Preencha os dados para registrar um novo horário.
+        </p>
+
+        <form class="formulario" id="formAgendamento">
+
+            <div class="campo">
+                <label for="cliente">Cliente *</label>
+                <select id="cliente" name="cliente" required>
+                    <option value="">Selecione uma cliente</option>
+                    <option value="Ana Souza">Ana Souza (fictícia)</option>
+                    <option value="Maria Lima">Maria Lima (fictícia)</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="servico">Serviço *</label>
+                <select id="servico" name="servico" required>
+                    <option value="">Selecione o serviço</option>
+                    <option value="Design de sobrancelhas">
+                        Design de sobrancelhas
+                    </option>
+                    <option value="Henna">Henna</option>
+                    <option value="Micropigmentação">
+                        Micropigmentação
+                    </option>
+                </select>
+            </div>
+
+            <div class="campos-duplos">
+                <div class="campo">
+                    <label for="data">Data *</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="campo">
+                    <label for="horario">Horário *</label>
+                    <select id="horario" name="horario" required>
+                        <option value="">Selecione</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="observacoes">
+                    Observações (opcional)
+                </label>
+                <textarea id="observacoes" name="observacoes"
+                    rows="3"
+                    placeholder="Digite alguma observação..."></textarea>
+            </div>
+
+            <button type="submit" class="botao-salvar">
+                ▦ &nbsp; Salvar agendamento
+            </button>
+
+            <p class="informacao">
+                ⓘ &nbsp; Todos os campos marcados com * são obrigatórios.
+            </p>
+
+            <p id="mensagem" class="mensagem" role="status"
+                aria-live="polite"></p>
+
+        </form>
+    </main>
+
+    <nav class="rodape" aria-label="Navegação principal">
+        <a href="index.html">⌂<span>Início</span></a>
+        <a href="agendamentos.html" class="ativo">
+            ▦<span>Agendamentos</span>
+        </a>
+        <a href="index.html#clientes">♙<span>Clientes</span></a>
+        <a href="#configuracoes">⚙<span>Configurações</span></a>
+    </nav>
+
+   
+<script>
+    const formulario = document.getElementById("formAgendamento");
+
+    formulario.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const agendamento = {
+            cliente: document.getElementById("cliente").value,
+            servico: document.getElementById("servico").value,
+            data: document.getElementById("data").value,
+            horario: document.getElementById("horario").value,
+            observacoes: document.getElementById("observacoes").value
+        };
+
+        const lista = JSON.parse(
+            sessionStorage.getItem("listaAgendamentos") || "[]"
+        );
+
+        const conflito = lista.some(function(item) {
+            return item.data === agendamento.data &&
+                   item.horario === agendamento.horario;
+        });
+
+        if (conflito) {
+            alert("Horário indisponível. Escolha outro horário.");
+            return;
+        }
+
+        lista.push(agendamento);
+
+        sessionStorage.setItem(
+            "listaAgendamentos",
+            JSON.stringify(lista)
+        );
+
+        sessionStorage.setItem(
+            "agendamentoAtual",
+            JSON.stringify(agendamento)
+        );
+
+        window.location.href = "resultado.html";
+    });
+</script>
+
+
+</body>
+</html>
