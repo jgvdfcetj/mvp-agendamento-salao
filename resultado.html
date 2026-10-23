@@ -141,5 +141,42 @@
         }
     </script>
 
+ <!-- Recursos de acessibilidade -->
+    <div class="acessibilidade" aria-label="Controles de acessibilidade">
+        <span>Acessibilidade: tamanho do texto</span>
+
+        <button type="button" id="aumentar-fonte"
+            aria-label="Aumentar tamanho do texto">A+</button>
+
+        <button type="button" id="diminuir-fonte"
+            aria-label="Diminuir tamanho do texto">A-</button>
+
+        <button type="button" id="resetar-fonte">Restaurar</button>
+    </div>
+
+    <script>
+        let tamanhoFonte = 100;
+
+        document.getElementById("aumentar-fonte").addEventListener("click", function () {
+            if (tamanhoFonte < 150) {
+                tamanhoFonte += 10;
+                document.documentElement.style.fontSize = tamanhoFonte + "%";
+            }
+        });
+
+        document.getElementById("diminuir-fonte").addEventListener("click", function () {
+            if (tamanhoFonte > 80) {
+                tamanhoFonte -= 10;
+                document.documentElement.style.fontSize = tamanhoFonte + "%";
+            }
+        });
+
+        document.getElementById("resetar-fonte").addEventListener("click", function () {
+            tamanhoFonte = 100;
+            document.documentElement.style.fontSize = "100%";
+        });
+    </script>
+
+
 </body>
 </html>

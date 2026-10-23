@@ -465,3 +465,81 @@ body {
         align-items: flex-start;
     }
 }
+
+
+
+/* Botões de acessibilidade */
+.acessibilidade {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #f5f0e8;
+    border-radius: 12px;
+}
+
+.acessibilidade span {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+
+/* Posicionamento dos controles de acessibilidade */
+.acessibilidade {
+    position: fixed;
+    right: 16px;
+    bottom: 90px;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    max-width: calc(100% - 32px);
+    padding: 12px;
+    background-color: #fff8fb;
+    border: 1px solid #e7c6d5;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.acessibilidade span {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.acessibilidade button {
+    padding: 8px 14px;
+    background-color: #315b42;
+    color: white;
+    border: 0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.acessibilidade button:focus-visible {
+    outline: 3px solid #1769aa;
+    outline-offset: 3px;
+}
+
+/* Em telas pequenas, usar uma barra compacta */
+@media (max-width: 480px) {
+    .acessibilidade {
+        right: 8px;
+        bottom: 78px;
+        max-width: calc(100% - 16px);
+        padding: 8px;
+        gap: 6px;
+    }
+}
